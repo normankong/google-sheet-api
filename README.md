@@ -12,19 +12,28 @@ This repo contains the 3 operations on Google Sheet API
 | DELETE   | Delete a row from a given sheet    |
 
 ## Usage
-Once you got the sheet ID, just append to the end
+Sheet ID is optional
 1) GET /SHEET_ID/SHEET_NO
 2) POST /SHEET_ID/SHEET_NO
-3) ELETE /SHEET_ID/SHELF_ID
+3) DELETE /SHEET_ID/SHEET_NO
 
 ## Deployment
 Deploy it to cloud function, google cloud function require additional 2 credential files 
 | File      | Description |
 | ----------- | ----------- |
 | credentials.json  | Application registration in order to enable the Google sheet API | 
-| token.json | A OAuth token for access public google sheet |
+| token.json | An OAuth token for access public google sheet |
+
+
 ```
-gcloud functions deploy google-sheet-api --runtime nodejs16 --entry-point sheet --trigger-http --allow-unauthenticated
+# Create a zip modeule as json file will not be upload by gcloud function deploy
+zip deploy.zip modules/* package* index.js credentials.json token.json
+
+# Upload to Cloud Storage
+gsutil cp deploy.zip gs://staging.gcp-api-00001.appspot.com/
+
+# Trigger the deployment
+gcloud functions deploy google-sheet-api --runtime nodejs16 --entry-point sheet --trigger-http --allow-unauthenticated --source=gs://staging.gcp-api-00001.appspot.com/deploy.zip
 ```
 
 ## Note
