@@ -18,7 +18,11 @@ Once you got the sheet ID, just append to the end
 3) ELETE /SHEET_ID/SHELF_ID
 
 ## Deployment
-Deploy it to cloud function
+Deploy it to cloud function, google cloud function require additional 2 credential files 
+| File      | Description |
+| ----------- | ----------- |
+| credentials.json  | Application registration in order to enable the Google sheet API | 
+| token.json | A OAuth token for access public google sheet |
 ```
 gcloud functions deploy google-sheet-api --runtime nodejs16 --entry-point sheet --trigger-http --allow-unauthenticated
 ```
